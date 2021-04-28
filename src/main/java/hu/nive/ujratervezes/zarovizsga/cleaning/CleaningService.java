@@ -2,52 +2,64 @@ package hu.nive.ujratervezes.zarovizsga.cleaning;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class CleaningService {
 
 
-    List<Cleanable> cleanables = new ArrayList<>();
-
+    private List<Cleanable> cleanables = new ArrayList<>();
 
     public List<Cleanable> getCleanables() {
-        return cleanables;
+        return new ArrayList<>(cleanables);
     }
 
     public void add(Cleanable cleanable) {
         cleanables.add(cleanable);
-    }
-
+    };
 
 
     public int cleanAll() {
-        int result= 0;
-        for (Cleanable cleanable : cleanables) {
-            cleanable.clean();
-            result += clean;
+        int price = 0;
+        for (Cleanable c : cleanables) {
+            price+=c.clean();
         }
-        return result;
+        cleanables.clear();
+        return price;
     }
 
     public int cleanOnlyOffices() {
-        for (Cleanable cleanable : cleanables) {
-            if (cleanable.getClass().equals(Office)) {
-                return cleanable.clean();
+        int price = 0;
+        Iterator <Cleanable> iterator = cleanables.iterator();
+        while (iterator.hasNext()){
+            Cleanable cleanable = iterator.next();
+            if (cleanable.getType()==BuildingType.OFFICE){
+                price+= cleanable.clean();
+                iterator.remove();
             }
         }
-    }
+        return price;
+        }
+
 
     public List<Cleanable> findByAddressPart(String address) {
         List<Cleanable> list = new ArrayList<>();
-        for (Cleanable cleanable : cleanables) {
-            if ( cleanable.getAddress().contains(address);
-            list.add(cleanable);
+        for (Cleanable c : cleanables) {
+            if(c.getAddress().contains(address));
+            list.add(c);
         } return list;
     }
 
     public String getAddresses() {
-        for (Cleanable cleanable : cleanables) {
+        if (cleanables.size()==0){
+            return"";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(cleanables.get(0).getAddress());
 
-        return cleanables.getAddress.toString};
+        for (int i=1; i<cleanables.size();i++) {
+            sb.append (", ").append(cleanables.get(i).getAddress());
+        }
+        return sb.toString();
     }
 }

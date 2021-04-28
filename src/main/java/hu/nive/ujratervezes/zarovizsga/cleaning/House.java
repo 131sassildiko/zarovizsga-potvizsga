@@ -4,6 +4,16 @@ public class House implements Cleanable {
 
     private String address;
     private int area;
+    private BuildingType type = BuildingType.HOUSE;
+
+
+    public int getArea() {
+        return area;
+    }
+
+    public BuildingType getType() {
+        return type;
+    }
 
     public House(String address, int area) {
         this.address = address;
